@@ -42,7 +42,11 @@ public class ConnectionInstance extends Thread
             Object input;
             while( (input = in.readObject()) != null )
             {
-
+                if( input instanceof PositionPacket )
+                {
+                    PositionPacket p = (PositionPacket) input;
+                    server.sendToAllClients(p);
+                }
             }
         }
         catch( Exception e )
