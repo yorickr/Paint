@@ -42,6 +42,7 @@ public class ConnectionInstance extends Thread
             Object input;
             while( (input = in.readObject()) != null )
             {
+                System.out.println("Received object");
                 if( input instanceof PositionPacket )
                 {
                     PositionPacket p = (PositionPacket) input;

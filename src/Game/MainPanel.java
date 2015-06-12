@@ -27,6 +27,7 @@ public class MainPanel extends JPanel implements ActionListener
     MainFrame mainFrame;
     boolean draw = false;
     Timer gfxTimer;
+    Timer serverTimer;
     
     String hostName = "www.imegumii.nl";
     int port = 33333;
@@ -44,6 +45,13 @@ public class MainPanel extends JPanel implements ActionListener
         this.mainFrame = mainFrame;
         gfxTimer = new Timer(1000 / 30, this);
         gfxTimer.start();
+
+        serverTimer = new Timer(1000/30, e ->
+        {
+            sendObject(toDraw);
+        });
+        serverTimer.start();
+
         addMouseListener(new MouseListener() {
 			
 			@Override
