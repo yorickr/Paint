@@ -10,11 +10,20 @@ import java.util.ArrayList;
  */
 public class PositionPacket implements Serializable
 {
-    
+    ArrayList<Shape> list;
 
     public PositionPacket()
     {
-
+        list = new ArrayList<>();
     }
 
+    public void setList(ArrayList<Shape> list)
+    {
+        this.list = list;
+    }
+
+    public ArrayList<Shape> getList()
+    {
+        return list;
+    }
 }
