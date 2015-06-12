@@ -35,15 +35,6 @@ public class Server
 
     }
 
-    public Integer getNewPlayerID()
-    {
-        if( clients.size() == 0 )
-        {
-            return new Integer(0);
-        }
-        return new Integer(clients.size());
-    }
-
     public void sendToAllClients(Object object)
     {
         clients.forEach( c->

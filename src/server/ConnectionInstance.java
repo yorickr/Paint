@@ -42,22 +42,7 @@ public class ConnectionInstance extends Thread
             Object input;
             while( (input = in.readObject()) != null )
             {
-                if( input instanceof String )
-                {
-                    System.out.println("Sending back PID");
-                    Integer outputInt = new Integer(server.getNewPlayerID());
-                    sendObject(outputInt);
 
-                }
-                if( input instanceof PositionPacket )
-                {
-                    System.out.println((( PositionPacket ) input).toString());
-                    PositionPacket pp = ( PositionPacket ) input;
-                    PositionPacket toSend = new PositionPacket();
-                    pp.sender.move();
-                    toSend.addPosition(pp.sender);
-                    server.sendToAllClients(toSend);
-                }
             }
         }
         catch( Exception e )

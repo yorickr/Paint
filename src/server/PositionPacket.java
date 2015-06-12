@@ -10,27 +10,11 @@ import java.util.ArrayList;
  */
 public class PositionPacket implements Serializable
 {
-    ServerPlayer sender;
-    Point2D senderPosition;
+    
 
     public PositionPacket()
     {
-    }
 
-    public void addPosition( ServerPlayer p )
-    {
-        sender = p;
-        senderPosition = p.position;
-    }
-
-    public Point2D getSenderPosition()
-    {
-        return senderPosition;
-    }
-
-    public ServerPlayer getSender()
-    {
-        return sender;
     }
 
 }
