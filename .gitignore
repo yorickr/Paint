@@ -1,0 +1,12 @@
+*.class
+.classpath
+.metadata
+.project
+.settings
+.idea
+simgamea7.iml
+out
+Project4.iml
+bin
+res/webcampictures
+
