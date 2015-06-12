@@ -4,9 +4,14 @@ import server.PositionPacket;
 
 import javax.swing.*;
 import javax.swing.text.Position;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,12 +25,12 @@ public class MainPanel extends JPanel implements ActionListener
     ArrayList<Shape> toDraw;
 
     MainFrame mainFrame;
-
+    boolean draw = false;
     Timer gfxTimer;
-
+    
     String hostName = "www.imegumii.nl";
     int port = 33333;
-
+    
     ObjectOutput out;
     ObjectInput in;
 
@@ -39,8 +44,55 @@ public class MainPanel extends JPanel implements ActionListener
         this.mainFrame = mainFrame;
         gfxTimer = new Timer(1000 / 30, this);
         gfxTimer.start();
-
-        try
+        addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				draw = false;
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				draw = true;
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				
+				if(draw)
+				{
+					toDraw.add(new Ellipse2D.Double(e.getPoint().x,e.getPoint().y, 10,10));
+				}
+			}
+		});
+       try
         {
             s = new Socket(hostName, port);
             out = new ObjectOutputStream(s.getOutputStream());
