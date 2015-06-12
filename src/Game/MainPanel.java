@@ -46,43 +46,38 @@ public class MainPanel extends JPanel implements ActionListener
         gfxTimer = new Timer(1000 / 30, this);
         gfxTimer.start();
 
-        serverTimer = new Timer(1000/30, e ->
+        addMouseListener(new MouseListener()
         {
-            sendObject(toDraw);
-        });
-        serverTimer.start();
 
-        addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				draw = false;
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				draw = true;
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+            @Override public void mouseReleased(MouseEvent e)
+            {
+                draw = false;
+
+            }
+
+            @Override public void mousePressed(MouseEvent e)
+            {
+                draw = true;
+            }
+
+            @Override public void mouseExited(MouseEvent e)
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override public void mouseEntered(MouseEvent e)
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override public void mouseClicked(MouseEvent e)
+            {
+                // TODO Auto-generated method stub
+
+            }
+        });
         addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
@@ -132,6 +127,14 @@ public class MainPanel extends JPanel implements ActionListener
                 }
             }
         }).start();
+
+        serverTimer = new Timer(1000/30, e ->
+        {
+            PositionPacket p = new PositionPacket();
+            p.setList(toDraw);
+            sendObject(p);
+        });
+        serverTimer.start();
 
     }
 
