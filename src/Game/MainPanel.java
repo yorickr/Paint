@@ -115,7 +115,7 @@ public class MainPanel extends JPanel implements ActionListener
                     {
                         if( input instanceof PositionPacket )
                         {
-                            PositionPacket p = (PositionPacket) input;
+                            PositionPacket<Shape> p = (PositionPacket<Shape>) input;
                             toDraw = p.getList();
                             Thread.sleep(1000/10);
                         }
@@ -133,7 +133,7 @@ public class MainPanel extends JPanel implements ActionListener
         }).start();
 
         serverTimer = new Timer(1000 / 10, e -> {
-            PositionPacket p = new PositionPacket();
+            PositionPacket<Shape> p = new PositionPacket<Shape>();
             p.setList(new ArrayList<Shape>(toSend));
             sendObject(p);
         });

@@ -46,7 +46,7 @@ public class Server
 
     public void sendAllShapes()
     {
-        PositionPacket p = new PositionPacket();
+        PositionPacket<Shape> p = new PositionPacket<>();
         p.setList(new ArrayList<>(allShapes));
         sendToAllClients(p);
 

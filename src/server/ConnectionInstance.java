@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,7 +47,7 @@ public class ConnectionInstance extends Thread
                 System.out.println("Received object");
                 if( input instanceof PositionPacket )
                 {
-                    PositionPacket p = (PositionPacket) input;
+                    PositionPacket<Shape> p = (PositionPacket<Shape>) input;
                     System.out.println(p.getList());
                     server.allShapes.addAll(p.getList());
                     server.sendAllShapes();
