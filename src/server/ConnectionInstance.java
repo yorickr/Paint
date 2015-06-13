@@ -57,6 +57,7 @@ public class ConnectionInstance extends Thread
         catch( Exception e )
         {
             e.printStackTrace();
+            server.removeCI(this);
         }
     }
 
