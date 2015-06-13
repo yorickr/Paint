@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class PositionPacket<T> implements Serializable
 {
+    static final long serialVersionUID = 42L;
     ArrayList<T> list;
 
     public PositionPacket()
