@@ -29,6 +29,7 @@ public class ConnectionInstance extends Thread
         catch( IOException e )
         {
             e.printStackTrace();
+            server.removeCI(this);
         }
 
     }
@@ -47,7 +48,8 @@ public class ConnectionInstance extends Thread
                 {
                     PositionPacket p = (PositionPacket) input;
                     System.out.println(p.getList());
-                    server.sendToAllClients(p);
+                    server.allShapes.addAll(p.getList());
+                    server.sendAllShapes();
                 }
             }
         }

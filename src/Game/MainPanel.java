@@ -116,7 +116,8 @@ public class MainPanel extends JPanel implements ActionListener
                         if( input instanceof PositionPacket )
                         {
                             PositionPacket p = (PositionPacket) input;
-                            toDraw.addAll(p.getList());
+                            toDraw = p.getList();
+                            Thread.sleep(1000/10);
                         }
                     }
                 }
@@ -124,10 +125,14 @@ public class MainPanel extends JPanel implements ActionListener
                 {
                     e.printStackTrace();
                 }
+                catch( InterruptedException e )
+                {
+                    e.printStackTrace();
+                }
             }
         }).start();
 
-        serverTimer = new Timer(1000 / 30, e -> {
+        serverTimer = new Timer(1000 / 10, e -> {
             PositionPacket p = new PositionPacket();
             p.setList(new ArrayList<Shape>(toSend));
             sendObject(p);

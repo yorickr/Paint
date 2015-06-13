@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -11,21 +12,24 @@ public class Server
 {
     int portNumber = 33333;
 
+    ArrayList<Shape> allShapes;
     ArrayList<ConnectionInstance> clients;
 
     public Server()
     {
         clients = new ArrayList<ConnectionInstance>();
+        allShapes = new ArrayList<>();
+
         ServerSocket serverSocket;
         try
         {
-            serverSocket = new ServerSocket( portNumber );
+            serverSocket = new ServerSocket(portNumber);
             while( true )
             {
-                ConnectionInstance ci = new ConnectionInstance( serverSocket.accept(), this );
+                ConnectionInstance ci = new ConnectionInstance(serverSocket.accept(), this);
                 ci.start();
-                clients.add( ci );
-                System.out.println( "Accepted new connection" );
+                clients.add(ci);
+                System.out.println("Accepted new connection");
             }
         }
         catch( IOException e )
@@ -35,16 +39,28 @@ public class Server
 
     }
 
-    public void sendToAllClients(Object object)
-    {
-        clients.forEach( c->
-        {
-            c.sendObject( object );
-        });
-    }
-
-    public static void main( String[] args )
+    public static void main(String[] args)
     {
         new Server();
+    }
+
+    public void sendAllShapes()
+    {
+        PositionPacket p = new PositionPacket();
+        p.setList(new ArrayList<>(allShapes));
+        sendToAllClients(p);
+
+    }
+
+    public void removeCI(ConnectionInstance ci)
+    {
+        this.clients.remove(ci);
+    }
+
+    public void sendToAllClients(Object object)
+    {
+        clients.forEach(c -> {
+            c.sendObject(object);
+        });
     }
 }
