@@ -57,10 +57,22 @@ public class Server
         this.clients.remove(ci);
     }
 
+    public void sendObjectToAllRecursively(Object o, ArrayList<ConnectionInstance> list)
+    {
+        if( list.size() == 0 )
+        {
+            return;
+        }
+        list.get(list.size() - 1).sendObject(o);
+        sendObjectToAllRecursively(o, list);
+
+    }
+
     public void sendToAllClients(Object object)
     {
-        new ArrayList<>(clients).forEach(c -> {
-            c.sendObject(object);
-        });
+//        new ArrayList<>(clients).forEach(c -> {
+//            c.sendObjectToAllRecursively(object);
+//        });
+        sendObjectToAllRecursively(object, new ArrayList<>(clients));
     }
 }
