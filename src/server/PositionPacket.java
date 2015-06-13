@@ -1,29 +1,27 @@
 package server;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by imegumii on 6/8/15.
  */
-public class PositionPacket implements Serializable
+public class PositionPacket<T> implements Serializable
 {
-    ArrayList<Shape> list;
+    ArrayList<T> list;
 
     public PositionPacket()
     {
         list = new ArrayList<>();
     }
 
-    public void setList(ArrayList<Shape> list)
-    {
-        this.list = list;
-    }
-
-    public ArrayList<Shape> getList()
+    public ArrayList<T> getList()
     {
         return list;
+    }
+
+    public void setList(ArrayList<T> list)
+    {
+        this.list = list;
     }
 }
