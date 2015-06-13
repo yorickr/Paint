@@ -153,7 +153,7 @@ public class MainPanel extends JPanel implements ActionListener
         super.paintComponent(graphics);
         Graphics2D g2d = ( Graphics2D ) graphics;
 
-        toDraw.forEach(e -> {
+        new ArrayList<Shape>(toDraw).forEach(e -> {
             g2d.fill(e);
         });
 
