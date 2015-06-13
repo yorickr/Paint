@@ -59,7 +59,7 @@ public class Server
 
     public void sendToAllClients(Object object)
     {
-        clients.forEach(c -> {
+        new ArrayList<>(clients).forEach(c -> {
             c.sendObject(object);
         });
     }
