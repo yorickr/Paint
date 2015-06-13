@@ -63,7 +63,9 @@ public class Server
         {
             return;
         }
-        list.get(list.size() - 1).sendObject(o);
+        ConnectionInstance c = list.get(list.size() - 1);
+        c.sendObject(o);
+        list.remove(c);
         sendObjectToAllRecursively(o, list);
 
     }
