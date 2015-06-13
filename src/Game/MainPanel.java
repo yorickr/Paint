@@ -48,6 +48,7 @@ public class MainPanel extends JPanel implements ActionListener
             @Override public void mouseReleased(MouseEvent e)
             {
                 draw = false;
+                toSend.clear();
 
             }
 
