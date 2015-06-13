@@ -3,14 +3,8 @@ package Game;
 import server.PositionPacket;
 
 import javax.swing.*;
-import javax.swing.text.Position;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.io.*;
 import java.net.Socket;
@@ -23,15 +17,16 @@ import java.util.ArrayList;
 public class MainPanel extends JPanel implements ActionListener
 {
     ArrayList<Shape> toDraw;
+    ArrayList<Shape> toSend;
 
     MainFrame mainFrame;
     boolean draw = false;
     Timer gfxTimer;
     Timer serverTimer;
-    
+
     String hostName = "www.imegumii.nl";
     int port = 33333;
-    
+
     ObjectOutput out;
     ObjectInput in;
 
@@ -42,6 +37,7 @@ public class MainPanel extends JPanel implements ActionListener
     {
         super();
         toDraw = new ArrayList<>();
+        toSend = new ArrayList<>();
         this.mainFrame = mainFrame;
         gfxTimer = new Timer(1000 / 30, this);
         gfxTimer.start();
@@ -78,24 +74,25 @@ public class MainPanel extends JPanel implements ActionListener
 
             }
         });
-        addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				
-				if(draw)
-				{
-					toDraw.add(new Ellipse2D.Double(e.getPoint().x,e.getPoint().y, 10,10));
-				}
-			}
-		});
-       try
+        addMouseMotionListener(new MouseMotionListener()
+        {
+
+            @Override public void mouseMoved(MouseEvent e)
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override public void mouseDragged(MouseEvent e)
+            {
+
+                if( draw )
+                {
+                    toSend.add(new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, 10, 10));
+                }
+            }
+        });
+        try
         {
             s = new Socket(hostName, port);
             out = new ObjectOutputStream(s.getOutputStream());
@@ -117,7 +114,8 @@ public class MainPanel extends JPanel implements ActionListener
                     {
                         if( input instanceof PositionPacket )
                         {
-                            setToDraw((( PositionPacket ) input).getList());
+                            PositionPacket p = (PositionPacket) input;
+                            toDraw.addAll(p.getList());
                         }
                     }
                 }
@@ -128,10 +126,9 @@ public class MainPanel extends JPanel implements ActionListener
             }
         }).start();
 
-        serverTimer = new Timer(1000/30, e ->
-        {
+        serverTimer = new Timer(1000 / 30, e -> {
             PositionPacket p = new PositionPacket();
-            p.setList(toDraw);
+            p.setList(new ArrayList<Shape>(toSend));
             sendObject(p);
         });
         serverTimer.start();

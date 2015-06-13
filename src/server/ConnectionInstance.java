@@ -46,6 +46,7 @@ public class ConnectionInstance extends Thread
                 if( input instanceof PositionPacket )
                 {
                     PositionPacket p = (PositionPacket) input;
+                    System.out.println(p.getList());
                     server.sendToAllClients(p);
                 }
             }
