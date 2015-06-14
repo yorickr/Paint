@@ -20,7 +20,7 @@ import javax.xml.stream.events.EndDocument;
 
 public class ObjectsPanel extends JPanel {
 
-	JButton rectangleButton, CircleButton, triangleButton, penButton, ClearScreen,gum;
+	JButton rectangleButton, CircleButton, LineButton, penButton, ClearScreen,gum;
 	MainPanel main;
 	Point startPoint, endPoint;
 	ArrayList<Shape> shapes = new ArrayList<Shape>();
@@ -36,16 +36,16 @@ public class ObjectsPanel extends JPanel {
 					main.setDrawRect(true);
 					main.setDrawCircle(false);
 					main.setDrawPen(false);
-					main.setDrawTriangle(false);
+					main.setDrawLine(false);
 					main.setGum(false);
 				} else if (e.getSource() == CircleButton) {
 					main.setDrawCircle(true);
 					main.setDrawRect(false);
-					main.setDrawTriangle(false);
+					main.setDrawLine(false);
 					main.setDrawPen(false);
 					main.setGum(false);
-				} else if (e.getSource() == triangleButton) {
-					main.setDrawTriangle(true);
+				} else if (e.getSource() == LineButton) {
+					main.setDrawLine(true);
 					main.setDrawCircle(false);
 					main.setDrawRect(false);
 					main.setDrawPen(false);
@@ -54,7 +54,7 @@ public class ObjectsPanel extends JPanel {
 					main.setDrawPen(true);
 					main.setDrawCircle(false);
 					main.setDrawRect(false);
-					main.setDrawTriangle(false);
+					main.setDrawLine(false);
 					main.setGum(false);
 				}else if(e.getSource() == ClearScreen)
 				{
@@ -64,7 +64,7 @@ public class ObjectsPanel extends JPanel {
 					main.setGum(true);
 					main.setDrawCircle(false);
 					main.setDrawRect(false);
-					main.setDrawTriangle(false);
+					main.setDrawLine(false);
 					main.setDrawPen(false);
 				}
 			}
@@ -74,8 +74,8 @@ public class ObjectsPanel extends JPanel {
 		rectangleButton.addActionListener(actionlistener);
 		CircleButton = new JButton("Circle");
 		CircleButton.addActionListener(actionlistener);
-		triangleButton = new JButton("Triangle");
-		triangleButton.addActionListener(actionlistener);
+		LineButton = new JButton("Line");
+		LineButton.addActionListener(actionlistener);
 		penButton = new JButton("Pen");
 		penButton.addActionListener(actionlistener);
 		ClearScreen = new JButton("ClearAll");
@@ -87,7 +87,7 @@ public class ObjectsPanel extends JPanel {
 		add(ClearScreen);
 		add(penButton);
 		add(rectangleButton);
-		add(triangleButton);
+		add(LineButton);
 		add(CircleButton);
 	}
 }
