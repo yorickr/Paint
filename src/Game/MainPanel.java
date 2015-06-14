@@ -65,7 +65,6 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                     drawPen = false;
                     drawLine = false;
                     gum = false;
-                    toSend.clear();
                 }
                 else if( drawCircle )
                 {
@@ -100,7 +99,6 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                     drawRectangle = false;
                     drawPen = false;
                 }
-
             }
 
             @Override public void mousePressed(MouseEvent e)
@@ -268,6 +266,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
             PositionPacket p = new PositionPacket();
             p.setList(new ArrayList<Shape>(toSend));
             sendObject(p);
+            toSend.clear();
         });
         serverTimer.start();
 
