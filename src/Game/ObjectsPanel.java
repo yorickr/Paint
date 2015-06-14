@@ -15,11 +15,12 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.xml.stream.events.EndDocument;
 
 public class ObjectsPanel extends JPanel {
 
-	JButton rectangleButton, ovalButton, triangleButton;
+	JButton rectangleButton, CircleButton, triangleButton, penButton, ClearScreen,gum;
 	MainPanel main;
 	Point startPoint, endPoint;
 	ArrayList<Shape> shapes = new ArrayList<Shape>();
@@ -33,24 +34,60 @@ public class ObjectsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == rectangleButton) {
 					main.setDrawRect(true);
-				} else if (e.getSource() == ovalButton) {
-					main.setDrawOval(true);
-				} /*else if (e.getSource() == triangleButton) {
-					main.drawTriangle = true;
-			}*/
+					main.setDrawCircle(false);
+					main.setDrawPen(false);
+					main.setDrawTriangle(false);
+					main.setGum(false);
+				} else if (e.getSource() == CircleButton) {
+					main.setDrawCircle(true);
+					main.setDrawRect(false);
+					main.setDrawTriangle(false);
+					main.setDrawPen(false);
+					main.setGum(false);
+				} else if (e.getSource() == triangleButton) {
+					main.setDrawTriangle(true);
+					main.setDrawCircle(false);
+					main.setDrawRect(false);
+					main.setDrawPen(false);
+					main.setGum(false);
+				} else if (e.getSource() == penButton) {
+					main.setDrawPen(true);
+					main.setDrawCircle(false);
+					main.setDrawRect(false);
+					main.setDrawTriangle(false);
+					main.setGum(false);
+				}else if(e.getSource() == ClearScreen)
+				{
+					main.setClear();
+				}else if(e.getSource() == gum)
+				{
+					main.setGum(true);
+					main.setDrawCircle(false);
+					main.setDrawRect(false);
+					main.setDrawTriangle(false);
+					main.setDrawPen(false);
+				}
 			}
 		};
-		
-		
+
 		rectangleButton = new JButton("Rectangle");
 		rectangleButton.addActionListener(actionlistener);
-		ovalButton = new JButton("Oval");
-		ovalButton.addActionListener(actionlistener);
+		CircleButton = new JButton("Circle");
+		CircleButton.addActionListener(actionlistener);
 		triangleButton = new JButton("Triangle");
 		triangleButton.addActionListener(actionlistener);
-
+		penButton = new JButton("Pen");
+		penButton.addActionListener(actionlistener);
+		ClearScreen = new JButton("ClearAll");
+		ClearScreen.addActionListener(actionlistener);
+		gum = new JButton("Gum");
+		gum.addActionListener(actionlistener);
+		
+		add(gum);
+		add(ClearScreen);
+		add(penButton);
 		add(rectangleButton);
 		add(triangleButton);
-		add(ovalButton);
+		add(CircleButton);
 	}
 }

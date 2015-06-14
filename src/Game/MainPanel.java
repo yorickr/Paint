@@ -18,12 +18,13 @@ import java.util.LinkedList;
  */
 public class MainPanel extends JPanel implements ActionListener {
 	ArrayList<Shape> toDraw;
-	ArrayList<Shape> toDrawRect;
 	ArrayList<Shape> toSend;
 
 	boolean drawRectangle = false;
 	boolean drawCircle = false;
 	boolean drawTriangle = false;
+	boolean drawPen = false;
+	boolean gum = false;
 
 	LinkedList<Polygon> triangles = new LinkedList<Polygon>();
 	Polygon triangle;
@@ -45,7 +46,6 @@ public class MainPanel extends JPanel implements ActionListener {
 	public MainPanel(MainFrame mainFrame) {
 		super();
 		toDraw = new ArrayList<>();
-		toDrawRect = new ArrayList<>();
 		toSend = new ArrayList<>();
 
 		this.mainFrame = mainFrame;
@@ -59,22 +59,84 @@ public class MainPanel extends JPanel implements ActionListener {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				if(drawRectangle || drawCircle)
+				if(drawRectangle)
 				{
-				toDrawRect.add(drawRectangle(startDrag.x, startDrag.y,	e.getX(), e.getY()));
+				toDraw.add(drawRectangle(startDrag.x, startDrag.y,	e.getX(), e.getY()));
 				startDrag = null;
 				endDrag = null;
+				drawCircle = false;
+				drawPen = false;
+				drawTriangle = false;
+				gum = false;
 				toSend.clear();
+				}else if(drawCircle)
+				{
+					toDraw.add(drawCircle(startDrag.x, startDrag.y,	e.getX(), e.getY()));
+					startDrag = null;
+					endDrag = null;
+					drawRectangle = false;
+					drawPen = false;
+					drawTriangle = false;
+					gum = false;
+				}else if(drawTriangle)
+				{
+					drawCircle = false;
+					drawRectangle = false;
+					drawPen = false;
+					gum = false;
+					
+				}else if(drawPen)
+				{
+					drawTriangle = false;
+					drawCircle = false;
+					drawRectangle = false;
+					gum = false;
+				}else if(gum)
+				{
+					drawTriangle = false;
+					drawCircle = false;
+					drawRectangle = false;
+					drawPen = false;
 				}
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				
-				if(drawRectangle || drawCircle)
+				if(drawRectangle)
 				{
-				startDrag = new Point(e.getX(), e.getY());
-				endDrag = startDrag;
+					startDrag = new Point(e.getX(), e.getY());
+					endDrag = startDrag;
+					drawCircle = false;
+					drawPen = false;
+					drawTriangle = false;
+					gum = false;
+				}else if(drawCircle)
+				{
+					startDrag = new Point(e.getX(), e.getY());
+					endDrag = startDrag;
+					drawRectangle = false;
+					drawPen = false;
+					drawTriangle = false;
+					gum = false;
+				}else if(drawTriangle)
+				{
+					drawCircle = false;
+					drawRectangle = false;
+					drawPen = false;
+					gum = false;
+				}else if(drawPen)
+				{
+					drawTriangle = false;
+					drawCircle = false;
+					drawRectangle = false;
+					gum = false;
+				}else if (gum)
+				{
+					drawCircle = false;
+					drawPen = false;
+					drawTriangle = false;
+					drawRectangle = false;
 				}
 			}
 
@@ -108,13 +170,43 @@ public class MainPanel extends JPanel implements ActionListener {
 			public void mouseDragged(MouseEvent e) {
 
 				
-				if (drawRectangle || drawCircle) {
+				if (drawRectangle) {
+					endDrag = new Point(e.getX(), e.getY());
+					drawCircle = false;
+					drawPen = false;
+					drawTriangle = false;
+					gum = false;
+				}else if (drawCircle) {
+					
 					// toSend.add(new Ellipse2D.Double(e.getPoint().x,
 					// e.getPoint().y, 10, 10));
-					toDraw.add(new Ellipse2D.Double(e.getPoint().x, e
-							.getPoint().y, 10, 10));
 					endDrag = new Point(e.getX(), e.getY());
-
+					drawRectangle = false;
+					drawPen = false;
+					drawTriangle = false;
+					gum = false;
+				}else if(drawTriangle)
+				{
+					drawCircle = false;
+					drawRectangle = false;
+					drawPen = false;
+					gum =false;
+					
+				}else if(drawPen)
+				{
+					toDraw.add(new Ellipse2D.Double(e.getPoint().x,e.getPoint().y, 10, 10));
+					drawTriangle = false;
+					drawCircle = false;
+					drawRectangle = false;
+					gum = false;
+					
+				}else if (gum)
+				{
+					toDraw.add(new Ellipse2D.Double(e.getPoint().x,e.getPoint().y, 10, 10));
+					drawCircle = false;
+					drawPen = false;
+					drawTriangle = false;
+					drawRectangle = false;
 				}
 			}
 		});
@@ -174,14 +266,38 @@ public class MainPanel extends JPanel implements ActionListener {
 		if (drawCircle) {
 			new ArrayList<Shape>(toDraw).forEach(e -> {
 				g2d.fill(e);
+				if (startDrag != null && endDrag != null) {
+					Shape c = drawCircle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+			        g2d.draw(c);	   
+					}
 			});
 		}
 		else if (drawRectangle) {
-			if (startDrag != null && endDrag != null) {
-			        Shape r = drawRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+				new ArrayList<Shape>(toDraw).forEach(e -> {
+					g2d.fill(e);
+					if (startDrag != null && endDrag != null) {
+					Shape r = drawRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
 			        g2d.draw(r);
-			        g2d.fill(r);
-			}
+					}
+				});  
+		}
+		else if(drawTriangle)
+		{
+			new ArrayList<Shape>(toDraw).forEach(e -> {
+				g2d.fill(e);	
+			});
+		}
+		else if(drawPen)
+		{
+			new ArrayList<Shape>(toDraw).forEach(e -> {
+				g2d.fill(e);	
+			});
+		}else if (gum)
+		{
+			new ArrayList<Shape>(toDraw).forEach(e -> {
+				g2d.fill(e);	
+				g2d.setColor(Color.WHITE);
+			});
 		}
 	}
 
@@ -197,8 +313,25 @@ public class MainPanel extends JPanel implements ActionListener {
 		this.drawRectangle = drawRect;
 	}
 
-	public void setDrawOval(boolean drawOval) {
-		this.drawCircle = drawOval;
+	public void setDrawCircle(boolean drawCircle) {
+		this.drawCircle = drawCircle;
+	}
+	
+	public void setDrawPen(boolean drawPen)
+	{
+		this.drawPen = drawPen;
+	}
+	public void setGum(boolean gum)
+	{
+		this.gum = gum;
+	}
+	public void setClear()
+	{
+		toDraw.clear();
+	}
+	public void setDrawTriangle(boolean drawTriangle)
+	{
+		this.drawTriangle = drawTriangle;
 	}
 
 	public void setToDraw(ArrayList<Shape> toDraw) {
@@ -213,6 +346,11 @@ public class MainPanel extends JPanel implements ActionListener {
 
 	private Rectangle2D.Double drawRectangle(int x1, int y1, int x2, int y2) {
 		return new Rectangle2D.Double(Math.min(x1, x2), Math.min(y1, y2),
+				Math.abs(x1 - x2), Math.abs(y1 - y2));
+	}
+	
+	private Ellipse2D.Double drawCircle(int x1, int y1, int x2, int y2) {
+		return new Ellipse2D.Double(Math.min(x1, x2), Math.min(y1, y2),
 				Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 }
