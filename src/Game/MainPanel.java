@@ -121,11 +121,23 @@ public class MainPanel extends JPanel implements ActionListener
                         }
                     }
                 }
-                catch( ClassNotFoundException | IOException e )
+                catch( IOException e )
+                {
+                    e.printStackTrace();
+                    try
+                    {
+                        in = new ObjectInputStream(s.getInputStream());
+                    }
+                    catch( IOException e1 )
+                    {
+                        e1.printStackTrace();
+                    }
+                }
+                catch( InterruptedException e )
                 {
                     e.printStackTrace();
                 }
-                catch( InterruptedException e )
+                catch( ClassNotFoundException e )
                 {
                     e.printStackTrace();
                 }
