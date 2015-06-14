@@ -13,12 +13,13 @@ import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
  * Created by imegumii on 6/3/15.
  */
-public class MainPanel extends JPanel implements ActionListener {
+public class MainPanel extends JPanel implements ActionListener, Comparable{
 	ArrayList<Shape> toDraw;
 	ArrayList<Shape> toSend;
 	boolean drawRectangle = false;
@@ -187,7 +188,8 @@ public class MainPanel extends JPanel implements ActionListener {
 					gum = false;
 				}else if(drawLine)
 				{
-					endDrag = new Point(e.getX(), e.getY());
+					//endDrag = new Point(e.getX(), e.getY());
+					
 					drawCircle = false;
 					drawRectangle = false;
 					drawPen = false;
@@ -364,4 +366,11 @@ public class MainPanel extends JPanel implements ActionListener {
 		return new Line2D.Double(Math.min(x1, x2), Math.min(y1, y2),
 				Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
+
+	@Override
+	public int compareTo(Object o) {
+		
+		return 0;
+	}
+	
 }
