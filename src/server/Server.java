@@ -20,6 +20,24 @@ public class Server
         clients = new ArrayList<ConnectionInstance>();
         allShapes = new ArrayList<>();
 
+        new Thread(() -> {
+
+            while( true )
+            {
+                System.out.println("Sending all shapes");
+                sendAllShapes();
+                try
+                {
+                    Thread.sleep(1000/5);
+                }
+                catch( InterruptedException e )
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
         ServerSocket serverSocket;
         try
         {

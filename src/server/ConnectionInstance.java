@@ -48,9 +48,8 @@ public class ConnectionInstance extends Thread
                 if( input instanceof PositionPacket )
                 {
                     PositionPacket<Shape> p = (PositionPacket<Shape>) input;
-                    System.out.println(p.getList());
+                    System.out.println(p.getList().size());
                     server.allShapes.addAll(p.getList());
-                    server.sendAllShapes();
                 }
             }
         }

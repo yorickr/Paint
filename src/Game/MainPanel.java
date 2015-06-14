@@ -124,6 +124,7 @@ public class MainPanel extends JPanel implements ActionListener
                 catch( ClassNotFoundException | IOException e )
                 {
                     e.printStackTrace();
+                    continue;
                 }
                 catch( InterruptedException e )
                 {
