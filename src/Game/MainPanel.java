@@ -11,13 +11,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
  * Created by imegumii on 6/3/15.
  */
-public class MainPanel extends JPanel implements ActionListener, Comparable
+public class MainPanel extends JPanel implements ActionListener
 {
     ArrayList<Shape> toDraw;
     ArrayList<Shape> toSend;
@@ -28,7 +27,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
     boolean gum = false;
 
     Color currentColor;
-    Point startDrag, endDrag, midPoint;
+    Point startDrag, endDrag;
     MainFrame mainFrame;
     boolean draw = false;
     Timer gfxTimer;
@@ -81,6 +80,8 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                 else if( drawLine )
                 {
                     toSend.add(drawLine(startDrag.x, startDrag.y, e.getX(), e.getY()));
+                    startDrag = null;
+                    endDrag = null;
                     drawCircle = false;
                     drawRectangle = false;
                     drawPen = false;
@@ -188,8 +189,6 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                 else if( drawCircle )
                 {
 
-                    // toSend.add(new Ellipse2D.Double(e.getPoint().x,
-                    // e.getPoint().y, 10, 10));
                     endDrag = new Point(e.getX(), e.getY());
                     drawRectangle = false;
                     drawPen = false;
@@ -198,8 +197,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                 }
                 else if( drawLine )
                 {
-                    //endDrag = new Point(e.getX(), e.getY());
-
+                    endDrag = new Point(e.getX(), e.getY());
                     drawCircle = false;
                     drawRectangle = false;
                     drawPen = false;
@@ -249,7 +247,8 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                         {
                             PositionPacket p = ( PositionPacket ) input;
                             ArrayList<Shape> list = p.getList();
-                            list.sort(new Comparator<Shape>() {
+                            list.sort(new Comparator<Shape>()
+                            {
                                 @Override public int compare(Shape shape, Shape t1)
                                 {
                                     if( shape.getBounds().getX() < t1.getBounds().getX() )
@@ -316,6 +315,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
         {
             new ArrayList<Shape>(toDraw).forEach(e -> {
                 g2d.fill(e);
+                g2d.draw(e);
                 if( startDrag != null && endDrag != null )
                 {
                     Shape c = drawCircle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
@@ -327,6 +327,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
         {
             new ArrayList<Shape>(toDraw).forEach(e -> {
                 g2d.fill(e);
+                g2d.draw(e);
                 if( startDrag != null && endDrag != null )
                 {
                     Shape r = drawRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
@@ -338,6 +339,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
         {
             new ArrayList<Shape>(toDraw).forEach(e -> {
                 g2d.fill(e);
+                g2d.draw(e);
                 if( startDrag != null && endDrag != null )
                 {
                     Shape l = drawLine(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
@@ -349,6 +351,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
         {
             new ArrayList<Shape>(toDraw).forEach(e -> {
                 g2d.fill(e);
+                g2d.draw(e);
             });
         }
         else if( gum )
@@ -356,6 +359,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
 
             new ArrayList<Shape>(toDraw).forEach(e -> {
                 g2d.fill(e);
+                g2d.draw(e);
             });
             g2d.setColor(Color.WHITE);
 
@@ -427,12 +431,7 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
 
     private Line2D.Double drawLine(int x1, int y1, int x2, int y2)
     {
-        return new Line2D.Double(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
+        return new Line2D.Double(x1, y1, x2, y2);
     }
 
-    @Override public int compareTo(Object o)
-    {
-
-        return 0;
-    }
 }
