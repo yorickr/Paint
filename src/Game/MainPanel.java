@@ -11,6 +11,8 @@ import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by imegumii on 6/3/15.
@@ -246,7 +248,25 @@ public class MainPanel extends JPanel implements ActionListener, Comparable
                         if( input instanceof PositionPacket )
                         {
                             PositionPacket p = ( PositionPacket ) input;
-                            toDraw = p.getList();
+                            ArrayList<Shape> list = p.getList();
+                            list.sort(new Comparator<Shape>() {
+                                @Override public int compare(Shape shape, Shape t1)
+                                {
+                                    if( shape.getBounds().getX() < t1.getBounds().getX() )
+                                    {
+                                        return -1;
+                                    }
+                                    if( shape.getBounds().getX() > t1.getBounds().getX() )
+                                    {
+                                        return 1;
+                                    }
+                                    else
+                                    {
+                                        return 0;
+                                    }
+                                }
+                            });
+                            toDraw = list;
                             Thread.sleep(1000 / 10);
                         }
                     }
